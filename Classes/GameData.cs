@@ -12,8 +12,7 @@ using Newtonsoft.Json;
 namespace PairsAssignmentFM.Classes
 {
     /// <summary>
-    /// This class allows the users to save a current game and then load at a later date
-    /// 
+    /// This class stores info on the current game allowing it to be saved and retreived in the future
     /// </summary>
     public class GameData
     {
@@ -79,10 +78,9 @@ namespace PairsAssignmentFM.Classes
             {
                 fileName = openFileDialog.FileName;
                 
-                using (StreamReader sr = new StreamReader(fileName))
-                {
+                using (StreamReader sr = new StreamReader(fileName))                
                     json = sr.ReadToEnd();
-                }
+                
                 return json;
             }
             else

@@ -248,7 +248,7 @@ namespace PairsAssignmentFM
         protected void CardClicked(object sender, EventArgs e, int cardNum, Point cardLocation) 
         {
             //Player 1
-            if (game.CurrentPlayer == true)
+            if (game.CurrentPlayer)
             {
                 //This is the 1st card the player has selected for their turn
                 if (game.CardsSelected == 0)
@@ -545,7 +545,7 @@ namespace PairsAssignmentFM
         }
 
         /// <summary>
-        /// 
+        /// Save the game
         /// </summary>
         private void SaveGame()
         {
@@ -571,7 +571,7 @@ namespace PairsAssignmentFM
         }
 
         /// <summary>
-        /// Save the current game
+        /// Save button in tool strip
         /// </summary>
         private void TsmiSaveGame_Click(object sender, EventArgs e)
         {
