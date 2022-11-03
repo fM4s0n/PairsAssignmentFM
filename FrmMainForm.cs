@@ -70,7 +70,7 @@ namespace PairsAssignmentFM
         #region Initial Set-up methods
 
         /// <summary>
-        /// 
+        /// New game set up
         /// </summary>
         /// <param name="isNewGame">Is this a new game or a loaded game</param>
         private void StartGameSetUp(bool isNewGame)
@@ -119,14 +119,17 @@ namespace PairsAssignmentFM
             }
         }
 
+        /// <summary>
+        /// Set up the panels for a new game
+        /// </summary>
         private void InitGamePanels()
         {
             //Gameboard
             gb = new CtrGameBoard { Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top };
 
             //Player panels
-            pnlPlayer1 = new CtrPlayerPanel();
-            pnlPlayer2 = new CtrPlayerPanel();
+            pnlPlayer1 = new CtrPlayerPanel() { Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top };
+            pnlPlayer2 = new CtrPlayerPanel() { Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top };
 
             //Add the controls to the panels
             PnlPlayer1.Controls.Add(pnlPlayer1);

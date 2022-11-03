@@ -64,7 +64,7 @@
             this.TBBtnHelp});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1500, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(1500, 31);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -81,7 +81,7 @@
             this.TBBtnGame.Image = ((System.Drawing.Image)(resources.GetObject("TBBtnGame.Image")));
             this.TBBtnGame.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TBBtnGame.Name = "TBBtnGame";
-            this.TBBtnGame.Size = new System.Drawing.Size(62, 24);
+            this.TBBtnGame.Size = new System.Drawing.Size(62, 28);
             this.TBBtnGame.Text = "Game";
             // 
             // TsmiNewGame
@@ -187,7 +187,8 @@
             // 
             // PnlPlayer1
             // 
-            this.PnlPlayer1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.PnlPlayer1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.PnlPlayer1.Location = new System.Drawing.Point(12, 40);
             this.PnlPlayer1.MaximumSize = new System.Drawing.Size(300, 850);
             this.PnlPlayer1.MinimumSize = new System.Drawing.Size(300, 850);
@@ -197,7 +198,8 @@
             // 
             // PnlPlayer2
             // 
-            this.PnlPlayer2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.PnlPlayer2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.PnlPlayer2.Location = new System.Drawing.Point(1174, 40);
             this.PnlPlayer2.MaximumSize = new System.Drawing.Size(300, 850);
             this.PnlPlayer2.MinimumSize = new System.Drawing.Size(300, 850);
@@ -230,7 +232,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1122, 905);
+            this.label1.Location = new System.Drawing.Point(1122, 934);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(352, 16);
             this.label1.TabIndex = 4;
