@@ -51,23 +51,19 @@ namespace PairsAssignmentFM
         Point card1Loc, card2Loc;
         #endregion
 
+        #region Initial Set-up
         public FrmMainForm()
         {
             InitializeComponent();
-
             //Make the form launch in the centre of the screen
             this.CenterToScreen();
-
             //Fill out game panels with controls
             InitGamePanels();
-
             //Set background colour of the form to the same colour as the logo
             this.BackColor = ColorTranslator.FromHtml("#5AF");
-
+            //Set backgroud logo when you first load the program
             PicBxLargeLogo.ImageLocation = $"{imgPath}LargeLogo.png";
         }
-
-        #region Initial Set-up methods
 
         /// <summary>
         /// New game set up
@@ -152,57 +148,58 @@ namespace PairsAssignmentFM
         }
 
         /// <summary>
-        /// Checks if both player names have been entered and are not the same
+        /// Check player names have been entered
         /// </summary>
-        /// <returns>True if all checks pass, false if any checks fail</returns>
-        private bool PlayerNameCheck()
+        private void PlayerNameCheck()
         {
-            //if both names are empty
+            string p1Name, p2Name;
+
+            //if both names needed
             if (pnlPlayer1.TxtPlayerName.Text.Length == 0 && pnlPlayer2.TxtPlayerName.Text.Length == 0)
             {
-                MessageBox.Show("Please enter player names");
-                pnlPlayer1.TxtPlayerName.BackColor = Color.Yellow;
-                pnlPlayer2.TxtPlayerName.BackColor = Color.Yellow;
-                return false;
+                p1Name = My_Dialogs.InputBox("Pairs", "Please enter player 1 name:");
+
+                //Keep asking for a name until they enter at least 1 char
+                while (p1Name == "")
+                    p1Name = My_Dialogs.InputBox("Pairs", "Please enter player 1 name:");
+
+                //Fill out the text field once the name is input
+                pnlPlayer1.TxtPlayerName.Text = p1Name;
+
+                p2Name = My_Dialogs.InputBox("Pairs", "Please enter player 2 name:");
+
+                while (p2Name == "")
+                    p2Name = My_Dialogs.InputBox("Pairs", "Please enter player 2 name:");
+
+                pnlPlayer2.TxtPlayerName.Text = p2Name;
             }
             else
             {
-                //if p1 name is empty
+                //If only p1 name needed
                 if (pnlPlayer1.TxtPlayerName.Text.Length == 0)
                 {
-                    MessageBox.Show("Please enter name for Player 1");
-                    pnlPlayer1.TxtPlayerName.BackColor = Color.Yellow;
-                    return false;
+                    p1Name = My_Dialogs.InputBox("Pairs", "Please enter player 1 name:");
+
+                    while (p1Name == "")
+                        p1Name = My_Dialogs.InputBox("Pairs", "Please enter player 1 name:");
+
+                    pnlPlayer1.TxtPlayerName.Text = p1Name;
                 }
                 else
                 {
-                    pnlPlayer1.TxtPlayerName.BackColor = Color.White;
-                    //if p2 name is empty
+                    //if only p2 name needed 
                     if (pnlPlayer2.TxtPlayerName.Text.Length == 0)
                     {
-                        MessageBox.Show("Please enter name for Player 2");
-                        pnlPlayer2.TxtPlayerName.BackColor = Color.Yellow;
-                        return false;
+                        p2Name = My_Dialogs.InputBox("Pairs", "Please enter player 2 name:");
+
+                        while (p2Name == "")
+                            p2Name = My_Dialogs.InputBox("Pairs", "Please enter player 2 name:");
+
+                        pnlPlayer2.TxtPlayerName.Text = p2Name;
                     }
+                    //All name checks pass
                     else
-                    {
-                        //if both player names match
-                        if (pnlPlayer1.TxtPlayerName.Text == pnlPlayer2.TxtPlayerName.Text)
-                        {
-                            MessageBox.Show("Please ensure player names are different");
-                            pnlPlayer1.TxtPlayerName.BackColor = Color.Yellow;
-                            pnlPlayer2.TxtPlayerName.BackColor = Color.Yellow;
-                            return false;
-                        }
-                        //All checks pass
-                        else
-                        {
-                            pnlPlayer2.TxtPlayerName.BackColor = Color.White;
-                            pnlPlayer1.TxtPlayerName.ReadOnly = true;
-                            pnlPlayer2.TxtPlayerName.ReadOnly = true;
-                            return true;
-                        }
-                    }
+                        return;
                 }
             }
         }
@@ -536,14 +533,15 @@ namespace PairsAssignmentFM
             //else start a new game
             else
             {
+                PlayerNameCheck();
                 //If PlayerNameCheck returns false, do nothing else continue with the game
-                if (!PlayerNameCheck())
-                    return;
-                else
-                {
+                //if (!PlayerNameCheck())
+                 //   return;
+                //else
+                //{
                     StartGameSetUp(true);
                     pnlPlayer1.PicBxToPlay.Show();
-                }
+                //}
             }
         }
 
