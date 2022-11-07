@@ -44,10 +44,11 @@ namespace PairsAssignmentFM
         //Gamboard
         CtrGameBoard gb;
         //Timers
-        Timer timerInitialDisplay, fiveSecTimer;
+        Timer timerInitial, fiveSecTimer;
 
         int initTimerInterval;
 
+        int card1Num, card2Num;
         Point card1Loc, card2Loc;
         #endregion
 
@@ -212,7 +213,7 @@ namespace PairsAssignmentFM
         public void ChangeCurrentPlayer(object sender, EventArgs e)
         {
             game.CardsSelected = 0;
-            timerInitialDisplay.Enabled = false;
+            timerInitial.Enabled = false;
             gb.isPaused = false;
             card1Loc = new Point(0, 0);
             card2Loc = new Point(0, 0);
@@ -254,6 +255,7 @@ namespace PairsAssignmentFM
                 if (game.CardsSelected == 0)
                 {
                     card1Loc = cardLocation;
+                    card1Num = cardNum;
 
                     pnlPlayer1.PicBxCard1.ImageLocation = $"{imgPath}{cardNum}.png";
                     game.CardsSelected = 1;
@@ -263,6 +265,8 @@ namespace PairsAssignmentFM
                 {
                     //Check for if they have clicked the same card as the first so they must click the pair of the card selected, not the same exact card
                     card2Loc = cardLocation;
+                    card2Num = cardNum;
+
                     if (card1Loc == card2Loc)
                         return;
 
@@ -270,8 +274,8 @@ namespace PairsAssignmentFM
 
                     //Pause input for 5secs, then change the player
                     gb.isPaused = true;
-                    timerInitialDisplay = new Timer() { Interval = initTimerInterval, Enabled = true };
-                    timerInitialDisplay.Tick += ChangeCurrentPlayer;
+                    timerInitial = new Timer() { Interval = initTimerInterval, Enabled = true };
+                    timerInitial.Tick += ChangeCurrentPlayer;
 
                     //If there is a match, check if the game has been won
                     if (CheckIfCardsMatch())
@@ -289,6 +293,7 @@ namespace PairsAssignmentFM
                 if (game.CardsSelected == 0)
                 {
                     card1Loc = cardLocation;
+                    card1Num = cardNum;
 
                     pnlPlayer2.PicBxCard1.ImageLocation = $"{imgPath}{cardNum}.png";
                     game.CardsSelected = 1;
@@ -296,6 +301,8 @@ namespace PairsAssignmentFM
                 else
                 {
                     card2Loc = cardLocation;
+                    card2Num = cardNum;
+
                     if (card1Loc == card2Loc)
                         return;
 
@@ -303,18 +310,15 @@ namespace PairsAssignmentFM
                     game.CardsSelected = 2;
 
                     gb.isPaused = true;
-                    timerInitialDisplay = new Timer() { Interval = 5000, Enabled = true };
-                    timerInitialDisplay.Tick += ChangeCurrentPlayer;
+                    timerInitial = new Timer() { Interval = 5000, Enabled = true };
+                    timerInitial.Tick += ChangeCurrentPlayer;
                     
                     //If the cards match, check if the game is finished
                     if (CheckIfCardsMatch())                    
                         CheckIfGameFinished();
                     //If not, set the cards back to red again
-                    else
-                    {
-                        fiveSecTimer = new Timer() { Interval = 5000, Enabled = true };
-                        fiveSecTimer.Tick += FlipCardsBackToRed;
-                    }                                   
+                    else                    
+                        timerInitial.Tick += FlipCardsBackToRed;                                                     
                 }
             }                
         }
@@ -328,21 +332,13 @@ namespace PairsAssignmentFM
             //player 1
             if(game.CurrentPlayer)
             {
-                //Remove path
-                string c1NoPath = pnlPlayer1.PicBxCard1.ImageLocation.Substring(104);
-                string c2NoPath = pnlPlayer1.PicBxCard2.ImageLocation.Substring(104);
-
-                //remove file type so just left with card no.
-                int cardNum1 = int.Parse(c1NoPath.Substring(0, c1NoPath.Length - 4));
-                int cardNum2 = int.Parse(c2NoPath.Substring(0, c2NoPath.Length - 4));
-
-                if (cardNum1 == cardNum2)
+                if (card1Num == card2Num)
                 {
                     //Increment pairs found value
                     int i = int.Parse(pnlPlayer1.LblPairsFoundNum.Text);
                     i++;
                     pnlPlayer1.LblPairsFoundNum.Text = i.ToString();
-                    ChangeCardsToBlue(cardNum1, cardNum2);
+                    timerInitial.Tick += ChangeCardsToBlue;
                     game.TotalPairsWon++;
                     return true;
                 }
@@ -352,21 +348,13 @@ namespace PairsAssignmentFM
             //player 2
             else
             {
-                //Remove path
-                string c1NoPath = pnlPlayer2.PicBxCard1.ImageLocation.Substring(104);
-                string c2NoPath = pnlPlayer2.PicBxCard2.ImageLocation.Substring(104);
-
-                //remove file type so just left with card no.
-                int cardNum1 = int.Parse(c1NoPath.Substring(0, c1NoPath.Length - 4));
-                int cardNum2 = int.Parse(c2NoPath.Substring(0, c2NoPath.Length - 4));
-
-                if (cardNum1 == cardNum2)
+                if (card1Num == card2Num)
                 {
                     //Increment pairs found value
                     int i = int.Parse(pnlPlayer2.LblPairsFoundNum.Text);
                     i++;
                     pnlPlayer2.LblPairsFoundNum.Text = i.ToString();
-                    ChangeCardsToBlue(cardNum1, cardNum2);
+                    timerInitial.Tick += ChangeCardsToBlue;
                     game.TotalPairsWon++;
                     return true;
                 }
@@ -380,11 +368,11 @@ namespace PairsAssignmentFM
         /// </summary>
         /// <param name="cardNum1">Number of 1st card selected</param>
         /// <param name="cardNum2">Number of 2nd card selected</param>
-        private void ChangeCardsToBlue(int cardNum1, int cardNum2)
+        private void ChangeCardsToBlue(object sender, EventArgs e)
         {
             foreach(PictureBox pb in gb.TlpGameBoard.Controls)
             {
-                if (pb.Name == $"pb{cardNum1}" || pb.Name == $"pb{cardNum2}")
+                if (pb.Name == $"pb{card1Num}" || pb.Name == $"pb{card2Num}")
                     pb.ImageLocation = $"{imgPath}Blue.png";
             }
         }
@@ -472,8 +460,8 @@ namespace PairsAssignmentFM
             pnlPlayer2.ResetPlayerPanel(keepNames);
 
             //Reset the timers
-            if(timerInitialDisplay != null)
-                timerInitialDisplay.Enabled = false;
+            if(timerInitial != null)
+                timerInitial.Enabled = false;
             if (fiveSecTimer != null)
                 fiveSecTimer.Enabled = false;
 
@@ -499,8 +487,7 @@ namespace PairsAssignmentFM
 
             //Start the new game         
             StartGameSetUp(true);
-            pnlPlayer1.PicBxToPlay.Show();
-            
+            pnlPlayer1.PicBxToPlay.Show();            
         }
         #endregion
 
@@ -534,14 +521,8 @@ namespace PairsAssignmentFM
             else
             {
                 PlayerNameCheck();
-                //If PlayerNameCheck returns false, do nothing else continue with the game
-                //if (!PlayerNameCheck())
-                 //   return;
-                //else
-                //{
-                    StartGameSetUp(true);
-                    pnlPlayer1.PicBxToPlay.Show();
-                //}
+                StartGameSetUp(true);
+                pnlPlayer1.PicBxToPlay.Show();  
             }
         }
 
@@ -585,6 +566,8 @@ namespace PairsAssignmentFM
         private void TsmiLoadGame_Click(object sender, EventArgs e)
         {
             string json = game.LoadGame();
+            if (json == "0")
+                return;
 
             game = JsonConvert.DeserializeObject<GameData>(json);
             StartGameSetUp(false);
