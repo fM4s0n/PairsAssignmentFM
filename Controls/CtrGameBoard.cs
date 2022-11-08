@@ -35,7 +35,7 @@ namespace PairsAssignmentFM.Controls
         #region Gamboard Set-up
         public CtrGameBoard()
         {
-            isPaused = true;
+            isPaused = false;
             InitializeComponent();            
         }
 
@@ -282,6 +282,16 @@ namespace PairsAssignmentFM.Controls
         public void ResetGameBoard()
         {
             TlpGameBoard.Controls.Clear();
+
+            int rowsAndCols = Convert.ToInt32(Math.Sqrt(picBoxArray.Length));
+
+            for (int r = 0; r < rowsAndCols; r++)
+            {
+                for (int c = 0; c < rowsAndCols; c++)
+                {
+                    picBoxArray[r, c] = null;
+                }
+            }
         }
         #endregion
 

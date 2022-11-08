@@ -31,10 +31,8 @@ namespace PairsAssignmentFM
             CardImageLocations = new List<string>()
         };
 
-        //Directory path
         readonly string imgPath = $"{Directory.GetCurrentDirectory()}\\Images\\";
 
-        //track if a game is in progress
         bool gameInProgress = false;
 
         //Player panels
@@ -45,7 +43,6 @@ namespace PairsAssignmentFM
         CtrGameBoard gb;
         //Timers
         Timer timerInitial, fiveSecTimer;
-
         int initTimerInterval;
 
         int card1Num, card2Num;
@@ -79,9 +76,6 @@ namespace PairsAssignmentFM
             PnlGameBoard.Controls.Add(gb);
 
             gameInProgress = true;
-
-            //Set the default grid size to 6x6
-            TsmiSize6x6.Checked = true;
 
             pnlPlayer1.TxtPlayerName.ReadOnly = true;
             pnlPlayer2.TxtPlayerName.ReadOnly = true;
@@ -132,15 +126,12 @@ namespace PairsAssignmentFM
             PnlPlayer1.Controls.Add(pnlPlayer1);
             PnlPlayer2.Controls.Add(pnlPlayer2);
 
-            //Label the controls
             pnlPlayer1.LblPlayerNum.Text = "Player 1";
             pnlPlayer2.LblPlayerNum.Text = "Player 2";
 
-            //Set next to play images
             pnlPlayer1.PicBxToPlay.ImageLocation = $"{imgPath}/YourTurn.png";
             pnlPlayer2.PicBxToPlay.ImageLocation = $"{imgPath}/YourTurn.png";
 
-            //Set both to plays to hidden until game starts
             pnlPlayer1.PicBxToPlay.Hide();
             pnlPlayer2.PicBxToPlay.Hide();
 
@@ -164,7 +155,6 @@ namespace PairsAssignmentFM
                 while (p1Name == "")
                     p1Name = My_Dialogs.InputBox("Pairs", "Please enter player 1 name:");
 
-                //Fill out the text field once the name is input
                 pnlPlayer1.TxtPlayerName.Text = p1Name;
 
                 p2Name = My_Dialogs.InputBox("Pairs", "Please enter player 2 name:");
@@ -263,10 +253,10 @@ namespace PairsAssignmentFM
                 //This is the 2nd card the player has selected for their turn
                 else
                 {
-                    //Check for if they have clicked the same card as the first so they must click the pair of the card selected, not the same exact card
                     card2Loc = cardLocation;
                     card2Num = cardNum;
 
+                    //Check to see if card in same location was clicked
                     if (card1Loc == card2Loc)
                         return;
 
@@ -277,7 +267,6 @@ namespace PairsAssignmentFM
                     timerInitial = new Timer() { Interval = initTimerInterval, Enabled = true };
                     timerInitial.Tick += ChangeCurrentPlayer;
 
-                    //If there is a match, check if the game has been won
                     if (CheckIfCardsMatch())
                         CheckIfGameFinished();
                     else
@@ -313,10 +302,8 @@ namespace PairsAssignmentFM
                     timerInitial = new Timer() { Interval = 5000, Enabled = true };
                     timerInitial.Tick += ChangeCurrentPlayer;
                     
-                    //If the cards match, check if the game is finished
                     if (CheckIfCardsMatch())                    
                         CheckIfGameFinished();
-                    //If not, set the cards back to red again
                     else                    
                         timerInitial.Tick += FlipCardsBackToRed;                                                     
                 }
@@ -417,7 +404,7 @@ namespace PairsAssignmentFM
             if (p1Score > p2Score)
             {
                 if (MessageBox.Show($"{pnlPlayer1.TxtPlayerName.Text} Wins!\nNew game?", "Game complete", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
-                    ResetGame();
+                    ResetGame(false);
                 else
                     return;
             }
@@ -427,7 +414,7 @@ namespace PairsAssignmentFM
                 if (p2Score > p1Score)
                 {
                     if (MessageBox.Show($"{pnlPlayer2.TxtPlayerName.Text} Wins!\nNew game?", "Game complete", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
-                        ResetGame();
+                        ResetGame(false);
                     else
                         return;
                 }
@@ -435,7 +422,7 @@ namespace PairsAssignmentFM
                 else
                 {
                     if (MessageBox.Show($"It's a draw!\nNew game?", "Game complete", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
-                        ResetGame();
+                        ResetGame(false);
                     else
                         return;
                 }
@@ -445,14 +432,19 @@ namespace PairsAssignmentFM
         /// <summary>
         /// Reset the game to starting point
         /// </summary>
-        public void ResetGame()
+        public void ResetGame(bool retreivingGame)
         {
             gameInProgress = false;
-            game.CurrentPlayer = true;
             bool keepNames = false;
 
-            //Reset the Player Panels
-            if (MessageBox.Show("Do you wish to keep the same player names?", "New Game", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+            if(!retreivingGame)
+            {
+                game.CurrentPlayer = true;
+
+                if (MessageBox.Show("Do you wish to keep the same player names?", "New Game", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    keepNames = true;
+            }
+            else
                 keepNames = true;
             
             //Reset the player panels
@@ -485,8 +477,12 @@ namespace PairsAssignmentFM
                 pnlPlayer2.TxtPlayerName.Text = p2Name;
             }
 
-            //Start the new game         
-            StartGameSetUp(true);
+            //Start the new game
+            if (retreivingGame)
+                StartGameSetUp(false);
+            else
+                StartGameSetUp(true);
+
             pnlPlayer1.PicBxToPlay.Show();            
         }
         #endregion
@@ -497,7 +493,7 @@ namespace PairsAssignmentFM
         /// </summary>
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //If user clicks OK, exit the program, else do nothing
+            //Allow user to save first
             if (MessageBox.Show("Do you wish to save your progress?", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                 SaveGame();
             else
@@ -515,9 +511,8 @@ namespace PairsAssignmentFM
                 if (MessageBox.Show("Do you wish to save your progress?", "New game", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                     SaveGame();
                              
-                    ResetGame();                
+                    ResetGame(false);                
             }
-            //else start a new game
             else
             {
                 PlayerNameCheck();
@@ -531,6 +526,7 @@ namespace PairsAssignmentFM
         /// </summary>
         private void SaveGame()
         {
+            //Don't allow user to save while game is frozen
             if (gb.isPaused)
             {
                 MessageBox.Show("Cannot save game while gameboard is frozen");
@@ -565,11 +561,23 @@ namespace PairsAssignmentFM
         /// </summary>
         private void TsmiLoadGame_Click(object sender, EventArgs e)
         {
+            //Allow user to save progress first
+            if(gameInProgress)
+            {
+                if (MessageBox.Show("Do you wish to save the game first?", "Pairs", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    SaveGame();
+                else                
+                    MessageBox.Show("Saving operation cancelled", "Pairs", MessageBoxButtons.OK, MessageBoxIcon.Information);                
+            }
+
             string json = game.LoadGame();
             if (json == "0")
                 return;
 
             game = JsonConvert.DeserializeObject<GameData>(json);
+
+            ResetGame(true);
+
             StartGameSetUp(false);
         }
 
