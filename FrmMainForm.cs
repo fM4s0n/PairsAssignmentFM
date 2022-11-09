@@ -255,7 +255,7 @@ namespace PairsAssignmentFM
 
                     //Pause input for 5secs, then change the player
                     gb.isPaused = true;
-                    fiveSecTimerP1.Enabled = new Timer() { Interval = 5000, Enabled = true };
+                    fiveSecTimerP1 = new Timer() { Interval = 5000, Enabled = true };
 
                     if (CheckIfCardsMatch())
                         CheckIfGameFinished();
@@ -288,7 +288,7 @@ namespace PairsAssignmentFM
 
                     gb.isPaused = true;
 
-                    fiveSecTimerP2.Enabled = new Timer() { Interval = 5000, Enabled = true };
+                    fiveSecTimerP2 = new Timer() { Interval = 5000, Enabled = true };
 
                     if (CheckIfCardsMatch())                    
                         CheckIfGameFinished();
