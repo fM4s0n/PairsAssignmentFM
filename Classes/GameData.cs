@@ -61,7 +61,7 @@ namespace PairsAssignmentFM.Classes
             //If the user cancel's out of the dilaog
             else
             {
-                MessageBox.Show("Saving operation cancelled", "Save Game", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Saving cancelled", "Save Game", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
         }
@@ -71,21 +71,26 @@ namespace PairsAssignmentFM.Classes
         /// </summary>
         public string LoadGame()
         {
-            string fileName, json;
-            OpenFileDialog openFileDialog = new OpenFileDialog() { InitialDirectory = savesPath };
+            string fileName;
+            OpenFileDialog openFileDialog = new OpenFileDialog() { InitialDirectory = savesPath, Filter = "Text File (*.txt) | *.txt" };
+
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 fileName = openFileDialog.FileName;
-                
-                using (StreamReader sr = new StreamReader(fileName))                
-                    json = sr.ReadToEnd();
-                
-                return json;
+                try
+                {
+                    using (StreamReader sr = new StreamReader(fileName))
+                        return sr.ReadToEnd();
+                }
+                catch (IOException ex)
+                {
+                    return "1";
+                }                            
             }
             else
             {
-                MessageBox.Show("Loading operation cancelled", "Load Game", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Loading cancelled", "Load Game", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return "0";
             }
         }

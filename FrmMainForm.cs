@@ -41,9 +41,10 @@ namespace PairsAssignmentFM
 
         //Gamboard
         CtrGameBoard gb;
-        //Timers
-        Timer timerInitial, fiveSecTimer;
-        int initTimerInterval;
+
+        //Timer
+        Timer fiveSecTimerP1 = new Timer() { Interval = 5000, Enabled = false };
+        Timer fiveSecTimerP2 = new Timer() { Interval = 5000, Enabled = false };
 
         int card1Num, card2Num;
         Point card1Loc, card2Loc;
@@ -52,6 +53,8 @@ namespace PairsAssignmentFM
         #region Initial Set-up
         public FrmMainForm()
         {
+
+
             InitializeComponent();
             //Make the form launch in the centre of the screen
             this.CenterToScreen();
@@ -79,20 +82,6 @@ namespace PairsAssignmentFM
 
             pnlPlayer1.TxtPlayerName.ReadOnly = true;
             pnlPlayer2.TxtPlayerName.ReadOnly = true;
-
-            //Change timer interval based on grid size
-            switch (game.RowColCount)
-            {
-                case 6:
-                    initTimerInterval = 5000;
-                    break;
-                case 10:
-                    initTimerInterval = 10000;
-                    break;
-                case 16:
-                    initTimerInterval = 15000;
-                    break;
-            }
 
             //If were a starting a new game
             if (isNewGame)
@@ -202,8 +191,10 @@ namespace PairsAssignmentFM
         /// </summary>
         public void ChangeCurrentPlayer(object sender, EventArgs e)
         {
+            fiveSecTimerP1.Enabled = false;
+            fiveSecTimerP2.Enabled = false;
+
             game.CardsSelected = 0;
-            timerInitial.Enabled = false;
             gb.isPaused = false;
             card1Loc = new Point(0, 0);
             card2Loc = new Point(0, 0);
@@ -264,16 +255,14 @@ namespace PairsAssignmentFM
 
                     //Pause input for 5secs, then change the player
                     gb.isPaused = true;
-                    timerInitial = new Timer() { Interval = initTimerInterval, Enabled = true };
-                    timerInitial.Tick += ChangeCurrentPlayer;
+                    fiveSecTimerP1.Enabled = new Timer() { Interval = 5000, Enabled = true };
 
                     if (CheckIfCardsMatch())
                         CheckIfGameFinished();
-                    else
-                    {
-                        fiveSecTimer = new Timer() { Interval = 5000, Enabled = true };
-                        fiveSecTimer.Tick += FlipCardsBackToRed;
-                    }
+                    else                   
+                        fiveSecTimerP1.Tick += FlipCardsBackToRed;
+
+                    fiveSecTimerP1.Tick += ChangeCurrentPlayer;
                 }                    
             }
             //Player 2
@@ -295,17 +284,18 @@ namespace PairsAssignmentFM
                     if (card1Loc == card2Loc)
                         return;
 
-                    pnlPlayer2.PicBxCard2.ImageLocation = $"{imgPath}{cardNum}.png";
-                    game.CardsSelected = 2;
+                    pnlPlayer2.PicBxCard2.ImageLocation = $"{imgPath}{cardNum}.png";                    
 
                     gb.isPaused = true;
-                    timerInitial = new Timer() { Interval = 5000, Enabled = true };
-                    timerInitial.Tick += ChangeCurrentPlayer;
-                    
+
+                    fiveSecTimerP2.Enabled = new Timer() { Interval = 5000, Enabled = true };
+
                     if (CheckIfCardsMatch())                    
                         CheckIfGameFinished();
                     else                    
-                        timerInitial.Tick += FlipCardsBackToRed;                                                     
+                        fiveSecTimerP2.Tick += FlipCardsBackToRed;
+
+                    fiveSecTimerP2.Tick += ChangeCurrentPlayer;
                 }
             }                
         }
@@ -325,7 +315,7 @@ namespace PairsAssignmentFM
                     int i = int.Parse(pnlPlayer1.LblPairsFoundNum.Text);
                     i++;
                     pnlPlayer1.LblPairsFoundNum.Text = i.ToString();
-                    timerInitial.Tick += ChangeCardsToBlue;
+                    fiveSecTimerP1.Tick += ChangeCardsToBlue;
                     game.TotalPairsWon++;
                     return true;
                 }
@@ -341,7 +331,7 @@ namespace PairsAssignmentFM
                     int i = int.Parse(pnlPlayer2.LblPairsFoundNum.Text);
                     i++;
                     pnlPlayer2.LblPairsFoundNum.Text = i.ToString();
-                    timerInitial.Tick += ChangeCardsToBlue;
+                    fiveSecTimerP2.Tick += ChangeCardsToBlue;
                     game.TotalPairsWon++;
                     return true;
                 }
@@ -357,7 +347,7 @@ namespace PairsAssignmentFM
         /// <param name="cardNum2">Number of 2nd card selected</param>
         private void ChangeCardsToBlue(object sender, EventArgs e)
         {
-            foreach(PictureBox pb in gb.TlpGameBoard.Controls)
+            foreach (PictureBox pb in gb.TlpGameBoard.Controls)
             {
                 if (pb.Name == $"pb{card1Num}" || pb.Name == $"pb{card2Num}")
                     pb.ImageLocation = $"{imgPath}Blue.png";
@@ -369,8 +359,6 @@ namespace PairsAssignmentFM
         /// </summary>
         private void FlipCardsBackToRed(object sender, EventArgs e)
         {
-            fiveSecTimer.Stop();
-
             foreach (PictureBox pb in gb.TlpGameBoard.Controls)
             {
                 if (pb.ImageLocation != $"{imgPath}Blue.png" && pb.ImageLocation != $"{imgPath}Red.png")
@@ -403,7 +391,7 @@ namespace PairsAssignmentFM
             //p1 wins
             if (p1Score > p2Score)
             {
-                if (MessageBox.Show($"{pnlPlayer1.TxtPlayerName.Text} Wins!\nNew game?", "Game complete", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+                if (MessageBox.Show($"{pnlPlayer1.TxtPlayerName.Text} Wins!\nNew game?", "Pairs", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
                     ResetGame(false);
                 else
                     return;
@@ -413,7 +401,7 @@ namespace PairsAssignmentFM
                 //P2 wins
                 if (p2Score > p1Score)
                 {
-                    if (MessageBox.Show($"{pnlPlayer2.TxtPlayerName.Text} Wins!\nNew game?", "Game complete", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+                    if (MessageBox.Show($"{pnlPlayer2.TxtPlayerName.Text} Wins!\nNew game?", "Pairs", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
                         ResetGame(false);
                     else
                         return;
@@ -421,7 +409,7 @@ namespace PairsAssignmentFM
                 //Draw
                 else
                 {
-                    if (MessageBox.Show($"It's a draw!\nNew game?", "Game complete", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+                    if (MessageBox.Show($"It's a draw!\nNew game?", "Pairs", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
                         ResetGame(false);
                     else
                         return;
@@ -441,7 +429,7 @@ namespace PairsAssignmentFM
             {
                 game.CurrentPlayer = true;
 
-                if (MessageBox.Show("Do you wish to keep the same player names?", "New Game", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                if (MessageBox.Show("Do you wish to keep the same player names?", "Pairs", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                     keepNames = true;
             }
             else
@@ -452,10 +440,9 @@ namespace PairsAssignmentFM
             pnlPlayer2.ResetPlayerPanel(keepNames);
 
             //Reset the timers
-            if(timerInitial != null)
-                timerInitial.Enabled = false;
-            if (fiveSecTimer != null)
-                fiveSecTimer.Enabled = false;
+            //if(fiveSecTimer != null)
+            fiveSecTimerP1.Enabled = false;
+            fiveSecTimerP2.Enabled = false;
 
             //Reset the gamebard
             gb.ResetGameBoard();
@@ -465,13 +452,13 @@ namespace PairsAssignmentFM
             //If not keeping names, input new player names
             if(!keepNames)
             {
-                p1Name = My_Dialogs.InputBox("Enter player 1's name:");
+                p1Name = My_Dialogs.InputBox("Pairs", "Enter player 1's name:");
                 while (p1Name == "")
                     p1Name = My_Dialogs.InputBox("Enter player 1's name:");
 
-                p2Name = My_Dialogs.InputBox("Enter player 2's name:");
+                p2Name = My_Dialogs.InputBox("Pairs","Enter player 2's name:");
                 while (p2Name == "")
-                    p2Name = My_Dialogs.InputBox("Enter player 2's name:");
+                    p2Name = My_Dialogs.InputBox("Pairs", "Enter player 2's name:");
 
                 pnlPlayer1.TxtPlayerName.Text = p1Name;
                 pnlPlayer2.TxtPlayerName.Text = p2Name;
@@ -564,21 +551,30 @@ namespace PairsAssignmentFM
             //Allow user to save progress first
             if(gameInProgress)
             {
-                if (MessageBox.Show("Do you wish to save the game first?", "Pairs", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
-                    SaveGame();
-                else                
-                    MessageBox.Show("Saving operation cancelled", "Pairs", MessageBoxButtons.OK, MessageBoxIcon.Information);                
+                if(MessageBox.Show("Do you wish to save the game first?", "Pairs", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    SaveGame();                                               
             }
 
             string json = game.LoadGame();
+            //User cancelled load
             if (json == "0")
                 return;
+            else
+            {
+                //StreamReader failed
+                if (json == "1")
+                    MessageBox.Show("Loading failed, check the file you are opening is a saved game and in .txt file format.","Pairs",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                //All checks pass, continue to load the game
+                else
+                {
+                    game = JsonConvert.DeserializeObject<GameData>(json);
 
-            game = JsonConvert.DeserializeObject<GameData>(json);
-
-            ResetGame(true);
-
-            StartGameSetUp(false);
+                    if (gameInProgress)
+                        ResetGame(true);
+                    else
+                        StartGameSetUp(false);
+                }
+            }
         }
 
         /// <summary>

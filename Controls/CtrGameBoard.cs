@@ -21,7 +21,8 @@ namespace PairsAssignmentFM.Controls
         //Array that represents the gameboard, holding picBoxs for all card images
         PictureBox[,] picBoxArray;
         //Timer
-        Timer tenSecondTimer;
+        Timer initialTimer;
+        int initTimerInterval;
 
         //Bool to stop click event for cards being reached
         //true = not clickable, false = clickable
@@ -45,10 +46,23 @@ namespace PairsAssignmentFM.Controls
         /// <param name="rowColCount">Number of rows and columns</param>
         public void GenerateGameBoard(int rowColCount)
         {
+            switch (rowColCount)
+            {
+                case 6:
+                    initTimerInterval = 5000;
+                    break;
+                case 10:
+                    initTimerInterval = 10000;
+                    break;
+                case 16:
+                    initTimerInterval = 15000;
+                    break;
+            }
+
             isPaused = true;
             //Only allow user input after 10secs
-            tenSecondTimer = new Timer() { Interval = 10000, Enabled = true };
-            tenSecondTimer.Tick += (_, __) => isPaused = false;
+            initialTimer = new Timer() { Interval = initTimerInterval, Enabled = true };
+            initialTimer.Tick += (_, __) => isPaused = false;
 
             //Create the array to store the gameboard data
             picBoxArray = new PictureBox[rowColCount, rowColCount];
@@ -67,7 +81,7 @@ namespace PairsAssignmentFM.Controls
             TlpGameBoard.Padding = GetCorrectionPadding(TlpGameBoard, 1);
 
             //Set all cards to red after 10 seconds
-            tenSecondTimer.Tick += SetAllCardsRed;            
+            initialTimer.Tick += SetAllCardsRed;            
         }
 
         /// <summary>
@@ -78,9 +92,23 @@ namespace PairsAssignmentFM.Controls
         /// <param name="cardImgLocations">list of all the card locations in the loaded game</param>
         public void GenerateGameBoard(int rowColCount, List<int> cardNums, List<string> cardImgLocations)
         {
+            switch (rowColCount)
+            {
+                case 6:
+                    initTimerInterval = 5000;
+                    break;
+                case 10:
+                    initTimerInterval = 10000;
+                    break;
+                case 16:
+                    initTimerInterval = 15000;
+                    break;
+            }
+
+            isPaused = true;
             //Only allow user input after 10secs
-            tenSecondTimer = new Timer() { Interval = 10000, Enabled = true };
-            tenSecondTimer.Tick += (_, __) => isPaused = false;
+            initialTimer = new Timer() { Interval = initTimerInterval, Enabled = true };
+            initialTimer.Tick += (_, __) => isPaused = false;
 
             //Create the array to store the gameboard data
             picBoxArray = new PictureBox[rowColCount, rowColCount];
@@ -88,7 +116,7 @@ namespace PairsAssignmentFM.Controls
             //Add rows and columns to the gameboard
             AddRowAndCols(rowColCount);
 
-            //
+            //Load cards from saved game into the array
             LoadCardsIntoArray(rowColCount, cardNums, cardImgLocations);
 
             //Add the pictureBoxs to the TLP
@@ -102,7 +130,7 @@ namespace PairsAssignmentFM.Controls
             SetAvailableCardsFaceUp();
 
             //Set cards to red that havn't been won
-            tenSecondTimer.Tick += SetAvailableCardRed;
+            initialTimer.Tick += SetAvailableCardsRed;
         }
 
         /// <summary>
@@ -111,28 +139,22 @@ namespace PairsAssignmentFM.Controls
         /// <param name="rowColCount">no. of rows and columns each</param>
         private void AddRowAndCols(int rowColCount)
         {
-            //default is 6 so do nothing
-            if (rowColCount == 6)
-                return;
-            else
-            {
-                //set row & col count
-                TlpGameBoard.RowCount = rowColCount;
-                TlpGameBoard.ColumnCount = rowColCount;
+            //set row & col count
+            TlpGameBoard.RowCount = rowColCount;
+            TlpGameBoard.ColumnCount = rowColCount;
 
-                //Calc % each row and col should be
-                float rowColPercentage = 100F/rowColCount;
+            //Calc % each row and col should be
+            float rowColPercentage = 100F/rowColCount;
                 
-                //Clear all current row & col styles as these are still set to the default
-                TlpGameBoard.ColumnStyles.Clear();
-                TlpGameBoard.RowStyles.Clear();
+            //Clear all current row & col styles as these are still set to the default
+            TlpGameBoard.ColumnStyles.Clear();
+            TlpGameBoard.RowStyles.Clear();
                 
-                //Add new row & col styles
-                for (int i = 0; i < rowColCount; i++)
-                {
-                    TlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, rowColPercentage));
-                    TlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, rowColPercentage));
-                }
+            //Add new row & col styles
+            for (int i = 0; i < rowColCount; i++)
+            {
+                TlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, rowColPercentage));
+                TlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, rowColPercentage));
             }
         }
 
@@ -214,14 +236,16 @@ namespace PairsAssignmentFM.Controls
 
         /// <summary>
         /// Set all cards to red for the begining of the game
+        /// unless cards are blue as this means they have been won in a retreived game
         /// </summary>
         private void SetAllCardsRed(object sender, EventArgs e)
         {
             foreach (PictureBox pb in picBoxArray)
-            {
-                pb.ImageLocation = $"{imgPath}Red.png";
+            { 
+                if (pb.ImageLocation != $"{imgPath}Blue.png")
+                    pb.ImageLocation = $"{imgPath}Red.png";
             }
-            tenSecondTimer.Enabled = false;
+            initialTimer.Enabled = false;
         }
 
         /// <summary>
@@ -229,14 +253,14 @@ namespace PairsAssignmentFM.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SetAvailableCardRed(object sender, EventArgs e)
+        private void SetAvailableCardsRed(object sender, EventArgs e)
         {
             foreach (PictureBox pb in picBoxArray)
             {
                 if (pb.ImageLocation != $"{imgPath}Blue.png")                
                     pb.ImageLocation = $"{imgPath}Red.png";                
             }
-            tenSecondTimer.Enabled = false;
+            initialTimer.Enabled = false;
         }
 
         /// <summary>
@@ -277,7 +301,7 @@ namespace PairsAssignmentFM.Controls
         }
 
         /// <summary>
-        /// 
+        /// Reset the gameboard
         /// </summary>
         public void ResetGameBoard()
         {
