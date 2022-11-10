@@ -8,6 +8,10 @@ using System.Drawing;
 
 namespace MyDialogs
 {
+    /// <summary>
+    /// This class was provided by Peter O'Neil (Module Leader) for use as part of this assignment.
+    /// It is used to generate a dialog box which allows text entry.
+    /// </summary>
     class My_Dialogs
     {
         public static string InputBox(string promptText)

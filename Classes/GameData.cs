@@ -16,7 +16,9 @@ namespace PairsAssignmentFM.Classes
     /// </summary>
     public class GameData
     {
+        #region Global Variables
         readonly string savesPath = $"{Directory.GetCurrentDirectory()}\\Saves";
+        #endregion
 
         #region properties
         /// <summary>
@@ -83,7 +85,7 @@ namespace PairsAssignmentFM.Classes
                     using (StreamReader sr = new StreamReader(fileName))
                         return sr.ReadToEnd();
                 }
-                catch (IOException ex)
+                catch (IOException)
                 {
                     return "1";
                 }                            

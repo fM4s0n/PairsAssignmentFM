@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace PairsAssignmentFM.Controls
 {
+    /// <summary>
+    /// Player panel control used to display the information of each player
+    /// </summary>
     public partial class CtrPlayerPanel : UserControl
     {
         public CtrPlayerPanel()
@@ -22,6 +25,7 @@ namespace PairsAssignmentFM.Controls
         /// </summary>
         public void ResetPlayerPanel(bool keepNames)
         {
+            //If not retaining the names from a previous game
             if(!keepNames)
             {
                 this.TxtPlayerName.Text = "";

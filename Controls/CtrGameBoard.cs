@@ -13,6 +13,9 @@ using PairsAssignmentFM.Classes;
 
 namespace PairsAssignmentFM.Controls
 {
+    /// <summary>
+    /// Game board control containing the TLP used to display the cards
+    /// </summary>
     public partial class CtrGameBoard : UserControl
     {
         #region Global Variables

@@ -17,6 +17,9 @@ using Newtonsoft.Json;
 
 namespace PairsAssignmentFM
 {
+    /// <summary>
+    /// This is the main form where the game is played and is the first form to launch
+    /// </summary>
     public partial class FrmMainForm : Form
     {
         #region Global Variables

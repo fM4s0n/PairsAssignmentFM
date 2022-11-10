@@ -11,6 +11,9 @@ using System.IO;
 
 namespace PairsAssignmentFM.Forms
 {
+    /// <summary>
+    /// This form is an 'about page' containing details about the application
+    /// </summary>
     public partial class FrmAbout : Form
     {
         readonly string imgPath = $"{Directory.GetCurrentDirectory()}\\Images\\";
