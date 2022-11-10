@@ -42,7 +42,7 @@ namespace PairsAssignmentFM
         //Gamboard
         CtrGameBoard gb;
 
-        //Timer
+        //Timers
         Timer fiveSecTimerP1 = new Timer() { Interval = 5000, Enabled = false };
         Timer fiveSecTimerP2 = new Timer() { Interval = 5000, Enabled = false };
 
@@ -53,17 +53,15 @@ namespace PairsAssignmentFM
         #region Initial Set-up
         public FrmMainForm()
         {
-
-
             InitializeComponent();
-            //Make the form launch in the centre of the screen
             this.CenterToScreen();
-            //Fill out game panels with controls
-            InitGamePanels();
             //Set background colour of the form to the same colour as the logo
             this.BackColor = ColorTranslator.FromHtml("#5AF");
             //Set backgroud logo when you first load the program
             PicBxLargeLogo.ImageLocation = $"{imgPath}LargeLogo.png";
+
+            //Fill out game panels with controls
+            InitGamePanels();
         }
 
         /// <summary>
@@ -177,7 +175,7 @@ namespace PairsAssignmentFM
 
                         pnlPlayer2.TxtPlayerName.Text = p2Name;
                     }
-                    //All name checks pass
+                    //All checks pass
                     else
                         return;
                 }
@@ -232,7 +230,7 @@ namespace PairsAssignmentFM
             //Player 1
             if (game.CurrentPlayer)
             {
-                //This is the 1st card the player has selected for their turn
+                //1st card selected
                 if (game.CardsSelected == 0)
                 {
                     card1Loc = cardLocation;
@@ -241,7 +239,7 @@ namespace PairsAssignmentFM
                     pnlPlayer1.PicBxCard1.ImageLocation = $"{imgPath}{cardNum}.png";
                     game.CardsSelected = 1;
                 }
-                //This is the 2nd card the player has selected for their turn
+                //2nd card selected
                 else
                 {
                     card2Loc = cardLocation;

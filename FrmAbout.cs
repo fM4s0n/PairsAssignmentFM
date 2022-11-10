@@ -21,7 +21,8 @@ namespace PairsAssignmentFM.Forms
             this.CenterToParent();
 
             string aboutText = "Description:\n\n" +
-                               "This pairs game was developed by Freddie Mason for Assignment 1 of 'Programming Fundamentals' at Sheffield Hallam University";
+                               "This pairs game was developed by Freddie Mason for Assignment 1 of 'Programming Fundamentals' at Sheffield Hallam University.\n\n" +
+                               "This application shows the use of the following: PictureBoxes, Textboxes, UserControls, TableLayoutPanels and Timers. In addition, it utilises arrays, local & global variables and other programming techniques.";
 
             TxtAboutText.Text = aboutText;
             PicBxPairsLogo.ImageLocation = $"{imgPath}PairsLogo.png";
