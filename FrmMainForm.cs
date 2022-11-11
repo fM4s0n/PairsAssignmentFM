@@ -517,7 +517,13 @@ namespace PairsAssignmentFM
             //Don't allow user to save while game is frozen
             if (gb.isPaused)
             {
-                MessageBox.Show("Cannot save game while gameboard is frozen");
+                MessageBox.Show("Cannot save game while gameboard is frozen", "Pairs", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            //Don't allow user to save if a game hasn't been started
+            if(!gameInProgress)
+            {
+                MessageBox.Show("Please start a game before saving", "Pairs", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
