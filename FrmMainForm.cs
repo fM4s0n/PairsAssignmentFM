@@ -535,6 +535,7 @@ namespace PairsAssignmentFM
             }
 
             string json = game.LoadGame();
+
             //User cancelled load
             if (json == "0")
                 return;
@@ -542,7 +543,7 @@ namespace PairsAssignmentFM
             {
                 //StreamReader failed
                 if (json == "1")
-                    MessageBox.Show("Error, loading failed - incorrect file format. check the file you are opening is a saved game and in .txt file format.","Pairs",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                    MessageBox.Show("Error, loading failed - incorrect file format. Check the file you are opening is a saved game and in .txt file format.","Pairs",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 //All checks pass, continue to load the game
                 else
                 {

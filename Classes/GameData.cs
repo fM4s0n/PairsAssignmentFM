@@ -20,10 +20,7 @@ namespace PairsAssignmentFM.Classes
         readonly string savesPath = $"{Directory.GetCurrentDirectory()}\\Saves";
         #endregion
 
-        #region properties
-        /// <summary>
-        /// Game save data
-        /// </summary>      
+        #region properties   
         public bool CurrentPlayer { get; set; }
         public int RowColCount { get; set; }
         public string P1Score { get; set; }
@@ -41,13 +38,11 @@ namespace PairsAssignmentFM.Classes
         public void SaveGame()
         {
             string fileName;
-            //Create a new SaveFileDialog to allow user to select save file location
+            //Create a new SaveFileDialog
             SaveFileDialog saveFileDialog = new SaveFileDialog() { InitialDirectory = savesPath, DefaultExt = "txt", Filter = "Text File (*.txt) | *.txt", AddExtension = true };
-
-            //If the user doesn't cancel out of the dialog 
+ 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                //save the file path
                 fileName = saveFileDialog.FileName;
 
                 //write the save file in the selected user location as a text file

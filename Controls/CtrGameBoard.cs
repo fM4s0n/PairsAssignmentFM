@@ -297,9 +297,7 @@ namespace PairsAssignmentFM.Controls
             return new Padding (minPad + deltaX, minPad + deltaY, minPad + deltaX + OddX, minPad + deltaY + OddY);
         }
 
-        /// <summary>
-        /// Reset the gameboard
-        /// </summary>
+        /// <summary>Reset the gameboard</summary>
         public void ResetGameBoard()
         {
             TlpGameBoard.Controls.Clear();
