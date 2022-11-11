@@ -430,7 +430,7 @@ namespace PairsAssignmentFM
             {
                 game.CurrentPlayer = true;
 
-                if (MessageBox.Show("Do you wish to keep the same player names?", "Pairs", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                if (MessageBox.Show("Do you wish to keep the same player names?", "Pairs", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     keepNames = true;
             }
             else
@@ -482,7 +482,7 @@ namespace PairsAssignmentFM
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Allow user to save first
-            if (MessageBox.Show("Do you wish to save your progress?", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+            if (MessageBox.Show("Do you wish to save your progress?", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 SaveGame();
             else
                 Application.Exit();
@@ -496,7 +496,7 @@ namespace PairsAssignmentFM
             //If a game is in progress give oportunity to save first
             if (gameInProgress)
             {
-                if (MessageBox.Show("Do you wish to save your progress?", "New game", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                if (MessageBox.Show("Do you wish to save your progress?", "New game", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     SaveGame();
                              
                     ResetGame(false);                
@@ -552,7 +552,7 @@ namespace PairsAssignmentFM
             //Allow user to save progress first
             if(gameInProgress)
             {
-                if(MessageBox.Show("Do you wish to save the game first?", "Pairs", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                if(MessageBox.Show("Do you wish to save the game first?", "Pairs", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     SaveGame();                                               
             }
 
@@ -564,11 +564,19 @@ namespace PairsAssignmentFM
             {
                 //StreamReader failed
                 if (json == "1")
-                    MessageBox.Show("Loading failed, check the file you are opening is a saved game and in .txt file format.","Pairs",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    MessageBox.Show("Error, loading failed - incorrect file format. check the file you are opening is a saved game and in .txt file format.","Pairs",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 //All checks pass, continue to load the game
                 else
                 {
-                    game = JsonConvert.DeserializeObject<GameData>(json);
+                    try
+                    {
+                        game = JsonConvert.DeserializeObject<GameData>(json);
+                    }
+                    catch (Newtonsoft.Json.JsonReaderException)
+                    {
+                        MessageBox.Show("Error, loading failed - file unbale to be read. Please check the file is a saved game.", "Pairs", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
 
                     if (gameInProgress)
                         ResetGame(true);

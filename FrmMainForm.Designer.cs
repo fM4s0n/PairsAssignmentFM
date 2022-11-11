@@ -64,7 +64,7 @@
             this.TBBtnHelp});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1500, 31);
+            this.toolStrip1.Size = new System.Drawing.Size(1500, 27);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -81,7 +81,7 @@
             this.TBBtnGame.Image = ((System.Drawing.Image)(resources.GetObject("TBBtnGame.Image")));
             this.TBBtnGame.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TBBtnGame.Name = "TBBtnGame";
-            this.TBBtnGame.Size = new System.Drawing.Size(62, 28);
+            this.TBBtnGame.Size = new System.Drawing.Size(62, 24);
             this.TBBtnGame.Text = "Game";
             // 
             // TsmiNewGame
@@ -232,7 +232,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1122, 934);
+            this.label1.Location = new System.Drawing.Point(1122, 897);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(352, 16);
             this.label1.TabIndex = 4;
@@ -243,7 +243,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(1500, 959);
+            this.ClientSize = new System.Drawing.Size(1500, 933);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.PnlGameBoard);
             this.Controls.Add(this.PnlPlayer2);
@@ -252,8 +252,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(1518, 1006);
-            this.MinimumSize = new System.Drawing.Size(1518, 1006);
+            this.MaximumSize = new System.Drawing.Size(1518, 980);
+            this.MinimumSize = new System.Drawing.Size(1518, 980);
             this.Name = "FrmMainForm";
             this.Text = "Pairs";
             this.toolStrip1.ResumeLayout(false);
