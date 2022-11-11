@@ -95,9 +95,7 @@ namespace PairsAssignmentFM
             }
         }
 
-        /// <summary>
-        /// Set up the panels for a new game
-        /// </summary>
+        /// <summary>Set up the panels for a new game</summary>
         private void InitGamePanels()
         {
             //Gameboard
@@ -124,9 +122,7 @@ namespace PairsAssignmentFM
             gb.OnCardClick += CardClicked;
         }
 
-        /// <summary>
-        /// Check player names have been entered
-        /// </summary>
+        /// <summary>Check player names have been entered</summary>
         private void PlayerNameCheck()
         {
             string p1Name, p2Name;
@@ -182,9 +178,7 @@ namespace PairsAssignmentFM
         #endregion
 
         #region Game Logic
-        /// <summary>
-        /// Change current player to next player and amend controls to reflect this
-        /// </summary>
+        /// <summary>Change current player to next player</summary>
         public void ChangeCurrentPlayer(object sender, EventArgs e)
         {
             fiveSecTimerP1.Enabled = false;
@@ -337,7 +331,7 @@ namespace PairsAssignmentFM
         }
 
         /// <summary>
-        /// Chnage matched cards to blue
+        /// Change matched cards to blue
         /// </summary>
         /// <param name="cardNum1">Number of 1st card selected</param>
         /// <param name="cardNum2">Number of 2nd card selected</param>
@@ -350,9 +344,7 @@ namespace PairsAssignmentFM
             }
         }
 
-        /// <summary>
-        /// Flip the cards back to red if not a match
-        /// </summary>
+        /// <summary>Flip the cards back to red if not a match</summary>
         private void FlipCardsBackToRed(object sender, EventArgs e)
         {
             foreach (PictureBox pb in gb.TlpGameBoard.Controls)
@@ -376,9 +368,7 @@ namespace PairsAssignmentFM
                 return;
         }
 
-        /// <summary>
-        /// Display a message stating who won the game
-        /// </summary>
+        /// <summary>Display a message stating who won the game</summary>
         private void GameFinished()
         {
             int p1Score = int.Parse(pnlPlayer1.LblPairsFoundNum.Text);
@@ -413,9 +403,7 @@ namespace PairsAssignmentFM
             }
         }
 
-        /// <summary>
-        /// Reset the game to starting point
-        /// </summary>
+        /// <summary>Reset the game to starting point</summary>
         public void ResetGame(bool retreivingGame)
         {
             gameInProgress = false;
@@ -436,7 +424,6 @@ namespace PairsAssignmentFM
             pnlPlayer2.ResetPlayerPanel(keepNames);
 
             //Reset the timers
-            //if(fiveSecTimer != null)
             fiveSecTimerP1.Enabled = false;
             fiveSecTimerP2.Enabled = false;
 
@@ -471,9 +458,7 @@ namespace PairsAssignmentFM
         #endregion
 
         #region Toolbar Button methods
-        /// <summary>
-        /// Exit button
-        /// </summary>
+        /// <summary>Exit button</summary>
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Allow user to save first
@@ -483,9 +468,7 @@ namespace PairsAssignmentFM
                 Application.Exit();
         }
 
-        /// <summary>
-        /// Start a new game
-        /// </summary>
+        /// <summary>Start a new game</summary>
         private void TsmiNewGame_Click(object sender, EventArgs e)
         {
             //If a game is in progress give oportunity to save first
@@ -504,9 +487,7 @@ namespace PairsAssignmentFM
             }
         }
 
-        /// <summary>
-        /// Save the game
-        /// </summary>
+        /// <summary>Save the game</summary>
         private void SaveGame()
         {
             //Don't allow user to save while game is frozen
@@ -537,17 +518,13 @@ namespace PairsAssignmentFM
             game.SaveGame();
         }
 
-        /// <summary>
-        /// Save button in tool strip
-        /// </summary>
+        /// <summary>Save button in tool strip</summary>
         private void TsmiSaveGame_Click(object sender, EventArgs e)
         {
             SaveGame();
         }
 
-        /// <summary>
-        /// Retreive a previous game
-        /// </summary>
+        /// <summary>Retreive a previous game</summary>
         private void TsmiLoadGame_Click(object sender, EventArgs e)
         {
             //Allow user to save progress first
@@ -587,18 +564,14 @@ namespace PairsAssignmentFM
             }
         }
 
-        /// <summary>
-        /// Launch 'about' info
-        /// </summary>
+        /// <summary>Launch 'about' info</summary>
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmAbout frmAbout = new FrmAbout();
             frmAbout.Show();
         }
 
-        /// <summary>
-        /// set grid size to 6x6
-        /// </summary>
+        /// <summary>Set grid size to 6x6</summary>
         private void TsmiSize6x6_Click(object sender, EventArgs e)
         {
             game.RowColCount = 6;
@@ -606,9 +579,7 @@ namespace PairsAssignmentFM
             TsmiSize16x16.Checked = false;
         }
 
-        /// <summary>
-        /// set grid size to 10x10
-        /// </summary>
+        /// <summary>Set grid size to 10x10</summary>
         private void TsmiSize10x10_Click(object sender, EventArgs e)
         {
             game.RowColCount = 10;
@@ -616,9 +587,7 @@ namespace PairsAssignmentFM
             TsmiSize16x16.Checked = false;
         }
 
-        /// <summary>
-        /// set grid size to 16x16
-        /// </summary>
+        /// <summary>set grid size to 16x16</summary>
         private void TsmiSize16x16_Click(object sender, EventArgs e)
         {
             game.RowColCount = 16;

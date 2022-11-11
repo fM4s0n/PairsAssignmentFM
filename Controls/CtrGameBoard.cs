@@ -73,10 +73,8 @@ namespace PairsAssignmentFM.Controls
             //Add rows and columns to the gameboard
             AddRowAndCols(rowColCount);
             
-            //Loop through array adding the picture boxes to each cell
             AddCardsToArray(rowColCount);
 
-            //Add the pictureBoxs to the TLP
             foreach (PictureBox pb in picBoxArray)
                 TlpGameBoard.Controls.Add(pb);
 
@@ -116,23 +114,19 @@ namespace PairsAssignmentFM.Controls
             //Create the array to store the gameboard data
             picBoxArray = new PictureBox[rowColCount, rowColCount];
 
-            //Add rows and columns to the gameboard
             AddRowAndCols(rowColCount);
 
-            //Load cards from saved game into the array
             LoadCardsIntoArray(rowColCount, cardNums, cardImgLocations);
 
-            //Add the pictureBoxs to the TLP
+            //Add the pictureBoxes to the TLP
             foreach (PictureBox pb in picBoxArray)
                 TlpGameBoard.Controls.Add(pb);
 
             //Set the correction padding
             TlpGameBoard.Padding = GetCorrectionPadding(TlpGameBoard, 1);
 
-            //show cards for 10secs that havn't been won
             SetAvailableCardsFaceUp();
 
-            //Set cards to red that havn't been won
             initialTimer.Tick += SetAvailableCardsRed;
         }
 

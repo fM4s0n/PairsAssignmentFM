@@ -37,9 +37,7 @@ namespace PairsAssignmentFM.Classes
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Saves the current state of the game
-        /// </summary>
+        /// <summary>Saves the current state of the game</summary>
         public void SaveGame()
         {
             string fileName;
@@ -68,9 +66,7 @@ namespace PairsAssignmentFM.Classes
             }
         }
 
-        /// <summary>
-        /// Loads a previously saved game
-        /// </summary>
+        /// <summary>Loads a previously saved game</summary>
         public string LoadGame()
         {
             string fileName;

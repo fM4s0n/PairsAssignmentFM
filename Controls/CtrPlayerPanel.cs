@@ -20,9 +20,7 @@ namespace PairsAssignmentFM.Controls
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Reset the player panels to pre-game state
-        /// </summary>
+        /// <summary>Reset the player panels to pre-game state</summary>
         public void ResetPlayerPanel(bool keepNames)
         {
             //If not retaining the names from a previous game
