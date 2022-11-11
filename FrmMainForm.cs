@@ -23,7 +23,6 @@ namespace PairsAssignmentFM
     public partial class FrmMainForm : Form
     {
         #region Global Variables
-        //New instance of GameData Class so game can be saved/loaded
         GameData game = new GameData()
         {
             CurrentPlayer = true,
@@ -38,14 +37,11 @@ namespace PairsAssignmentFM
 
         bool gameInProgress = false;
 
-        //Player panels
         CtrPlayerPanel pnlPlayer1;
         CtrPlayerPanel pnlPlayer2;
 
-        //Gamboard
         CtrGameBoard gb;
 
-        //Timers
         Timer fiveSecTimerP1 = new Timer() { Interval = 5000, Enabled = false };
         Timer fiveSecTimerP2 = new Timer() { Interval = 5000, Enabled = false };
 
@@ -58,12 +54,11 @@ namespace PairsAssignmentFM
         {
             InitializeComponent();
             this.CenterToScreen();
-            //Set background colour of the form to the same colour as the logo
+
             this.BackColor = ColorTranslator.FromHtml("#5AF");
-            //Set backgroud logo when you first load the program
+
             PicBxLargeLogo.ImageLocation = $"{imgPath}LargeLogo.png";
 
-            //Fill out game panels with controls
             InitGamePanels();
         }
 
@@ -84,10 +79,10 @@ namespace PairsAssignmentFM
             pnlPlayer1.TxtPlayerName.ReadOnly = true;
             pnlPlayer2.TxtPlayerName.ReadOnly = true;
 
-            //If were a starting a new game
+            //If starting a new game
             if (isNewGame)
                 gb.GenerateGameBoard(game.RowColCount);
-            //If loading a game, need to call overloaded version
+            //If loading a game
             else
             {
                 gb.GenerateGameBoard(game.RowColCount, game.CardNums, game.CardImageLocations);

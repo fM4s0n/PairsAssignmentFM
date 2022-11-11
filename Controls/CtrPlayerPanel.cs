@@ -32,7 +32,7 @@ namespace PairsAssignmentFM.Controls
                 this.TxtPlayerName.ReadOnly = false;
             }
 
-            this.LblPairsFoundNum.Text = "";
+            this.LblPairsFoundNum.Text = "0";
             this.PicBxToPlay.Hide();
         }
     }
