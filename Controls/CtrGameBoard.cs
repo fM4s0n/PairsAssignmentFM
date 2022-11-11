@@ -204,9 +204,7 @@ namespace PairsAssignmentFM.Controls
             }            
         }
 
-        /// <summary>
-        /// Load card info stored in lists into the array
-        /// </summary>
+        /// <summary>Load card info stored in lists into the array</summary>
         private void LoadCardsIntoArray(int rowsAndCols, List<int> cardNums, List<string> cardImgLocations)
         {
             for (int r = 0; r < rowsAndCols; r++)
@@ -233,7 +231,7 @@ namespace PairsAssignmentFM.Controls
 
         /// <summary>
         /// Set all cards to red for the begining of the game
-        /// unless cards are blue as this means they have been won in a retreived game
+        /// unless cards are blue as they have been won in a retreived game
         /// </summary>
         private void SetAvailableCardsRed(object sender, EventArgs e)
         {
@@ -245,9 +243,7 @@ namespace PairsAssignmentFM.Controls
             initialTimer.Enabled = false;
         }
 
-        /// <summary>
-        /// When loading a saved game, set all cards that have not been won face up for 10secs
-        /// </summary>
+        /// <summary>Set all cards that have not been won face up</summary>
         private void SetAvailableCardsFaceUp()
         {
             foreach (PictureBox pb in picBoxArray)
@@ -304,7 +300,7 @@ namespace PairsAssignmentFM.Controls
         /// CardClicked event method
         /// </summary>
         /// <param name="sender">Picture box which was clicked</param>
-        /// <param name="e"></param>
+        /// <param name="e">Event</param>
         private void CardClicked(object sender, EventArgs e)
         {
             //stop the clickevent if isPaused is true
