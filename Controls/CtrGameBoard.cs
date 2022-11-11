@@ -82,7 +82,7 @@ namespace PairsAssignmentFM.Controls
             TlpGameBoard.Padding = GetCorrectionPadding(TlpGameBoard, 1);
 
             //Set all cards to red after 10 seconds
-            initialTimer.Tick += SetAllCardsRed;            
+            initialTimer.Tick += SetAvailableCardsRed;            
         }
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace PairsAssignmentFM.Controls
         /// Set all cards to red for the begining of the game
         /// unless cards are blue as this means they have been won in a retreived game
         /// </summary>
-        private void SetAllCardsRed(object sender, EventArgs e)
+        private void SetAvailableCardsRed(object sender, EventArgs e)
         {
             foreach (PictureBox pb in picBoxArray)
             { 
@@ -246,22 +246,7 @@ namespace PairsAssignmentFM.Controls
         }
 
         /// <summary>
-        /// When loading a game, set cards to red which have not been won
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SetAvailableCardsRed(object sender, EventArgs e)
-        {
-            foreach (PictureBox pb in picBoxArray)
-            {
-                if (pb.ImageLocation != $"{imgPath}Blue.png")                
-                    pb.ImageLocation = $"{imgPath}Red.png";                
-            }
-            initialTimer.Enabled = false;
-        }
-
-        /// <summary>
-        /// When loading a game, set all cards that have not been won face up for 10secs
+        /// When loading a saved game, set all cards that have not been won face up for 10secs
         /// </summary>
         private void SetAvailableCardsFaceUp()
         {
