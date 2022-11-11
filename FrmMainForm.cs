@@ -578,7 +578,7 @@ namespace PairsAssignmentFM
                     {
                         game = JsonConvert.DeserializeObject<GameData>(json);
                     }
-                    catch (Newtonsoft.Json.JsonReaderException)
+                    catch (JsonReaderException)
                     {
                         MessageBox.Show("Error, loading failed - file unbale to be read. Please check the file is a saved game.", "Pairs", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
