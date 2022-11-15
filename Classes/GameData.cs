@@ -17,7 +17,7 @@ namespace PairsAssignmentFM.Classes
     public class GameData
     {
         #region Global Variables
-        readonly string savesPath = $"{Directory.GetCurrentDirectory()}\\Saves";
+        readonly string savesPath = Directory.GetCurrentDirectory();
         #endregion
 
         #region properties   
@@ -37,26 +37,24 @@ namespace PairsAssignmentFM.Classes
         /// <summary>Saves the current state of the game</summary>
         public void SaveGame()
         {
-            string fileName;
             //Create a new SaveFileDialog
             SaveFileDialog saveFileDialog = new SaveFileDialog() { InitialDirectory = savesPath, DefaultExt = "txt", Filter = "Text File (*.txt) | *.txt", AddExtension = true };
  
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                fileName = saveFileDialog.FileName;
-
                 //write the save file in the selected user location as a text file
-                using (StreamWriter sw = File.CreateText(fileName))
+                using (StreamWriter sw = File.CreateText(saveFileDialog.FileName))
                 {
                     //serialise the game object as a json
                     JsonSerializer serializer = new JsonSerializer();
                     serializer.Serialize(sw, this);
                 }
+                MessageBox.Show("Game saved successfully.", "Pairs", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             //If the user cancel's out of the dilaog
             else
             {
-                MessageBox.Show("Saving cancelled", "Save Game", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Saving cancelled", "Pairs", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
         }
@@ -67,7 +65,6 @@ namespace PairsAssignmentFM.Classes
             string fileName;
             OpenFileDialog openFileDialog = new OpenFileDialog() { InitialDirectory = savesPath, Filter = "Text File (*.txt) | *.txt" };
 
-
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 fileName = openFileDialog.FileName;
@@ -76,6 +73,7 @@ namespace PairsAssignmentFM.Classes
                     using (StreamReader sr = new StreamReader(fileName))
                         return sr.ReadToEnd();
                 }
+                //Catch for if they load a non .txt file
                 catch (IOException)
                 {
                     return "1";
@@ -83,7 +81,7 @@ namespace PairsAssignmentFM.Classes
             }
             else
             {
-                MessageBox.Show("Loading cancelled", "Load Game", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Loading cancelled", "Pairs", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return "0";
             }
         }

@@ -497,12 +497,13 @@ namespace PairsAssignmentFM
                 return;
             }
             //Don't allow user to save if a game hasn't been started
-            if(!gameInProgress)
+            if (!gameInProgress)
             {
                 MessageBox.Show("Please start a game before saving", "Pairs", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
+            //Store game info in lists
             foreach (PictureBox pb in gb.TlpGameBoard.Controls)
             {
                 int cardNum = int.Parse(pb.Name.Substring(2));
@@ -528,7 +529,7 @@ namespace PairsAssignmentFM
         private void TsmiLoadGame_Click(object sender, EventArgs e)
         {
             //Allow user to save progress first
-            if(gameInProgress)
+            if (gameInProgress)
             {
                 if(MessageBox.Show("Do you wish to save the game first?", "Pairs", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     SaveGame();                                               
@@ -543,14 +544,14 @@ namespace PairsAssignmentFM
             {
                 //StreamReader failed
                 if (json == "1")
-                    MessageBox.Show("Error, loading failed - incorrect file format. Check the file you are opening is a saved game and in .txt file format.","Pairs",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                //All checks pass, continue to load the game
+                    MessageBox.Show("Error, loading failed - incorrect file format. Check the file is a saved game and in .txt file format.","Pairs",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 else
                 {
                     try
                     {
                         game = JsonConvert.DeserializeObject<GameData>(json);
                     }
+                    //Catch for if they load a file which isn't a saved game
                     catch (JsonReaderException)
                     {
                         MessageBox.Show("Error, loading failed - file unbale to be read. Please check the file is a saved game.", "Pairs", MessageBoxButtons.OK, MessageBoxIcon.Error);

@@ -16,6 +16,13 @@ namespace PairsAssignmentFM.Controls
     /// <summary>
     /// Game board control containing the TLP used to display the cards
     /// </summary>
+
+    #region References
+    /// The method GetCorrectionPadding() was sourced from Stack Overflow. It was posted by user 'TaW' on 24/05/16 to the question 
+    /// at the following link.
+    /// https://stackoverflow.com/questions/37415113/creating-same-size-cells-with-tablelayoutpanel
+    #endregion
+
     public partial class CtrGameBoard : UserControl
     {
         #region Global Variables
@@ -28,7 +35,6 @@ namespace PairsAssignmentFM.Controls
         int initTimerInterval;
 
         //Bool to stop click event for cards being reached
-        //true = not clickable, false = clickable
         public bool isPaused;
 
         //Card click event 
@@ -62,15 +68,13 @@ namespace PairsAssignmentFM.Controls
                     break;
             }
 
-            isPaused = true;
             //Only allow user input after 10secs
+            isPaused = true;
             initialTimer = new Timer() { Interval = initTimerInterval, Enabled = true };
             initialTimer.Tick += (_, __) => isPaused = false;
 
-            //Create the array to store the gameboard data
             picBoxArray = new PictureBox[rowColCount, rowColCount];
 
-            //Add rows and columns to the gameboard
             AddRowAndCols(rowColCount);
             
             AddCardsToArray(rowColCount);
@@ -107,22 +111,18 @@ namespace PairsAssignmentFM.Controls
             }
 
             isPaused = true;
-            //Only allow user input after 10secs
             initialTimer = new Timer() { Interval = initTimerInterval, Enabled = true };
             initialTimer.Tick += (_, __) => isPaused = false;
 
-            //Create the array to store the gameboard data
             picBoxArray = new PictureBox[rowColCount, rowColCount];
 
             AddRowAndCols(rowColCount);
 
             LoadCardsIntoArray(rowColCount, cardNums, cardImgLocations);
 
-            //Add the pictureBoxes to the TLP
             foreach (PictureBox pb in picBoxArray)
                 TlpGameBoard.Controls.Add(pb);
 
-            //Set the correction padding
             TlpGameBoard.Padding = GetCorrectionPadding(TlpGameBoard, 1);
 
             SetAvailableCardsFaceUp();
@@ -169,7 +169,7 @@ namespace PairsAssignmentFM.Controls
             List<int> deck = new List<int>();
             int cardsRemaining = rowsAndCols * rowsAndCols;
 
-            //keep adding full packs until the cards required is less than a full deck
+            //Keep adding full packs until the cards required is less than a full deck
             while (cardsRemaining > 104)
             {
                 deck = generateCards.GenerateFullPack(deck);
@@ -205,11 +205,11 @@ namespace PairsAssignmentFM.Controls
         }
 
         /// <summary>Load card info stored in lists into the array</summary>
-        private void LoadCardsIntoArray(int rowsAndCols, List<int> cardNums, List<string> cardImgLocations)
+        private void LoadCardsIntoArray(int rowColCount, List<int> cardNums, List<string> cardImgLocations)
         {
-            for (int r = 0; r < rowsAndCols; r++)
+            for (int r = 0; r < rowColCount; r++)
             {
-                for (int c = 0; c < rowsAndCols; c++ )
+                for (int c = 0; c < rowColCount; c++ )
                 {
                     int cardNum = cardNums[0];
                     string cardImgLocation = cardImgLocations[0];
@@ -309,6 +309,8 @@ namespace PairsAssignmentFM.Controls
 
             //Cast sender to picture box
             PictureBox pb = sender as PictureBox;
+
+            //Get the location so it can be checked later
             Point location = pb.Location;
 
             //If card clicked is blue, dont do anything as it has been won
