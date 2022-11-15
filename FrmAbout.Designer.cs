@@ -48,12 +48,15 @@
             // 
             // TxtAboutText
             // 
+            this.TxtAboutText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TxtAboutText.Location = new System.Drawing.Point(277, 86);
             this.TxtAboutText.Multiline = true;
             this.TxtAboutText.Name = "TxtAboutText";
+            this.TxtAboutText.ReadOnly = true;
             this.TxtAboutText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.TxtAboutText.Size = new System.Drawing.Size(360, 200);
             this.TxtAboutText.TabIndex = 1;
+            this.TxtAboutText.Text = resources.GetString("TxtAboutText.Text");
             // 
             // PicBxPairsLogo
             // 
