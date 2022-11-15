@@ -377,7 +377,7 @@ namespace PairsAssignmentFM
             //p1 wins
             if (p1Score > p2Score)
             {
-                if (MessageBox.Show($"{pnlPlayer1.TxtPlayerName.Text} Wins!\nNew game?", "Pairs", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+                if (MessageBox.Show($"{pnlPlayer1.TxtPlayerName.Text} Wins!\nNew game?", "Pairs", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                     ResetGame(false);
                 else
                     return;
@@ -387,7 +387,7 @@ namespace PairsAssignmentFM
                 //P2 wins
                 if (p2Score > p1Score)
                 {
-                    if (MessageBox.Show($"{pnlPlayer2.TxtPlayerName.Text} Wins!\nNew game?", "Pairs", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+                    if (MessageBox.Show($"{pnlPlayer2.TxtPlayerName.Text} Wins!\nNew game?", "Pairs", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                         ResetGame(false);
                     else
                         return;
@@ -395,7 +395,7 @@ namespace PairsAssignmentFM
                 //Draw
                 else
                 {
-                    if (MessageBox.Show($"It's a draw!\nNew game?", "Pairs", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+                    if (MessageBox.Show($"It's a draw!\nNew game?", "Pairs", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                         ResetGame(false);
                     else
                         return;
